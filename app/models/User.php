@@ -2,8 +2,10 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+// Add this line
+use LaravelBook\Ardent\Ardent;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends Ardent implements UserInterface, RemindableInterface {
 
 	/**
 	 * The database table used by the model.
@@ -18,7 +20,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	protected $hidden = array('password');
-
+            
+        protected $fillable = array('username', 'email');
+        
+        protected $guarded = array('id', 'password');
+        
+        // password_confirmation이 실제 필드에 있는것이 아님. 비밀번호 확인 역활을 하는 부분임.
+        // 그래서 model에 해당 부분 추가 해줘야함.
+        public $autoPurgeRedundantAttributes = true;
+        
 	/**
 	 * Get the unique identifier for the user.
 	 *
@@ -79,5 +89,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
+        
+        /**
+         * Ardent validation rules
+         * Ardent 필드 검사 룰
+        */
+        public static $rules = array(
+            'username' => 'required|between:4,16',
+            'email' => 'required|email',
+            'password' => 'required|alpha_num|min:8|confirmed',
+            'password_confirmation' => 'required|alpha_num|min:8',
+        );
+        
+        
+        /**
+         * Post relationship
+         * Post 관계설정.
+        */
+        public function posts()
+        {
+         return $this->hasMany('Post');
+        }
 
 }

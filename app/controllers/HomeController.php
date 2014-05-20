@@ -17,7 +17,27 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
-		return View::make('hello');
+            try {
+                /*
+                $user = new User;
+                $user->username = 'philipbrown';
+                $user->email = 'phil@ipbrown.com';
+                $user->password = 'deadgiveaway';
+                $user->password_confirmation = 'deadgiveaway';
+                $user->save(); // returns false  
+                 */
+                // Create a new Post
+                $post = new Post(array('body' => 'Yada yada yada'));
+                // Grab User 1
+                $user = User::find(1);
+                // Save the Post
+                $user->posts()->save($post);
+            } catch (Exception $ex) {
+                echo $ex->getMessage();
+            }
+            
+            
+            return View::make('hello');
 	}
 
 }
