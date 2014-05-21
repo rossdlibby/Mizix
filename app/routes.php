@@ -13,4 +13,7 @@
 Route::get('phpinfo',function(){
     echo phpinfo();
 });
+
+Route::resource('users', 'UsersController');
 Route::get('/', "HomeController@showWelcome");
+
