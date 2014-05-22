@@ -2,6 +2,7 @@
 use User;
 
 class EloquentUserRepository implements UserRepository {
+    
     public function all()
     {
         return User::all();
@@ -10,6 +11,11 @@ class EloquentUserRepository implements UserRepository {
     public function find($id)
     {
         return User::find($id);
+    }
+    
+    public function findByEmail($email)
+    {
+        return User::where('email','=',$email)->first();
     }
     
     public function create($input)

@@ -2,10 +2,9 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
-// Add this line
-use LaravelBook\Ardent\Ardent;
 
-class User extends Ardent implements UserInterface, RemindableInterface {
+
+class User extends Eloquent implements UserInterface, RemindableInterface {
 
     /**
      * The database table used by the model.
@@ -89,27 +88,6 @@ class User extends Ardent implements UserInterface, RemindableInterface {
     {
             return $this->email;
     }
-
-    /**
-     * Ardent validation rules
-     * Ardent 필드 검사 룰
-     */
-    public static $rules = array(
-        'username' => 'required|between:4,16',
-        'email' => 'required|email',
-        'password' => 'required|alpha_num|min:8|confirmed',
-        'password_confirmation' => 'required|alpha_num|min:8',
-    );
-
-    /**
-     * Factory
-     */
-    public static $factory = array(
-        'username' => 'string',
-        'email' => 'email',
-        'password' => 'password',
-        'password_confirmation' => 'password'
-    );
 
     /**
      * Post relationship
